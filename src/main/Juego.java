@@ -7,6 +7,7 @@ public class Juego extends NumeroJugadores {
     Scanner sc = new Scanner(System.in);
     ConjuntoFichas conjunto = new ConjuntoFichas();
     ArrayList<FichaDomino> tablero = new ArrayList<>();
+    ArrayList<Jugador> ganadores = new ArrayList<>();
     private boolean finJuego = false;
     private int turnosPasadosConsecutivos = 0;
     private int maxDoble = -1;
@@ -15,8 +16,11 @@ public class Juego extends NumeroJugadores {
     private int indiceSuma = -1;
     private int indiceInicio;
     private int turnoActual;
-    private int menorSuma;
+    private int menorSuma = -1;
     private int suma;
+    FichaDomino fichaInicial;
+    FichaDomino nuevaFicha;
+    Jugador jugador;
 
     public Juego(int numJugadores, boolean finJuego) {
         super(numJugadores);
@@ -60,13 +64,13 @@ public class Juego extends NumeroJugadores {
         }
 
         indiceInicio = determinarJugadorInicial(jugadores);
-        FichaDomino fichaInicial = jugadores.get(indiceInicio).mano.remove(jugadores.get(indiceInicio).getIndiceInicial());
+        fichaInicial = jugadores.get(indiceInicio).mano.remove(jugadores.get(indiceInicio).getIndiceInicial());
         tablero.add(fichaInicial);
         System.out.println("\nEl juego inicia con " + jugadores.get(indiceInicio).getNombre() + " colocando " + fichaInicial);
 
         turnoActual = (indiceInicio + 1) % getNumJugadores();
         while (!finJuego) {
-            Jugador jugador = jugadores.get(turnoActual);
+            jugador = jugadores.get(turnoActual);
             System.out.println("\nTurno de " + jugador.getNombre());
             System.out.println("Tablero: " + tablero);
             System.out.println("Tu mano: ");
@@ -76,9 +80,13 @@ public class Juego extends NumeroJugadores {
 
             if (!jugador.puedeJugar(tablero)) {
                 if (!conjunto.estaVacio()) {
-                    FichaDomino nuevaFicha = conjunto.sacarFicha();
+                    nuevaFicha = conjunto.sacarFicha();
                     jugador.mano.add(nuevaFicha);
-                    System.out.println("Sacaste una ficha: " + nuevaFicha);
+                    System.out.println("No tiens fichas para poner y sacaste una ficha del montón: " + nuevaFicha);
+                    if (jugador.puedeJugar(tablero)) {
+                    	System.out.println("La ficha que has sacado se puede jugar");
+                    	jugador.jugarFichaSacada(tablero, sc, nuevaFicha);
+                    }
                     turnosPasadosConsecutivos = 0;
                 } else {
                     System.out.println("No puedes jugar y no quedan fichas en el montón. Pasas turno.");
@@ -104,22 +112,37 @@ public class Juego extends NumeroJugadores {
     }
 
     private void determinarGanadorPorMenorSuma() {
-        Jugador ganador = null;
         menorSuma = -1;
 
         for (Jugador jugador : jugadores) {
-            int suma = 0;
+            suma = 0;
             for (FichaDomino ficha : jugador.mano) {
                 suma += ficha.getLado1() + ficha.getLado2();
             }
+
+            System.out.println("\nLa suma de los dígitos de " + jugador.getNombre() + " es: " + suma);
+
             if (menorSuma == -1 || suma < menorSuma) {
                 menorSuma = suma;
-                ganador = jugador;
+                ganadores.clear(); 
+                ganadores.add(jugador);
+            } else if (suma == menorSuma) {
+                ganadores.add(jugador);
             }
         }
-
-        if (ganador != null) {
-            System.out.println("\nEl ganador es " + ganador.getNombre() + " con la menor suma de dígitos: " + menorSuma);
+        
+        if (ganadores.size() == 1) {
+            System.out.println("\nEl ganador es " + ganadores.get(0).getNombre() + 
+                               " con la menor suma de dígitos: " + menorSuma);
+        } else {
+            System.out.print("\nHay un empate entre los siguientes jugadores con suma " + menorSuma + ": ");
+            for (int i = 0; i < ganadores.size(); i++) {
+                System.out.print(ganadores.get(i).getNombre());
+                if (i < ganadores.size() - 1) {
+                    System.out.print(", ");
+                }
+            }
         }
     }
+
 }

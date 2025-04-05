@@ -4,8 +4,6 @@ import java.util.*;
 
 public class ConjuntoFichas {
     private ArrayList<FichaDomino> fichas;
-    private Random random = new Random();
-    private int posicion;
 
     public ConjuntoFichas() {
         fichas = new ArrayList<>();
@@ -17,21 +15,14 @@ public class ConjuntoFichas {
     }
 
     public void barajar() {
-        for (int i = fichas.size() - 1; i > 0; i--) {
-            posicion = random.nextInt(i + 1);
-            FichaDomino temporal = fichas.get(posicion);
-            fichas.set(posicion, fichas.get(i));
-            fichas.set(i, temporal);
-        }
+    	Collections.shuffle(fichas);
     }
 
     public FichaDomino sacarFicha() {
-        return !fichas.isEmpty() ? fichas.remove(0) : null;
+        return fichas.remove(0);
     }
 
     public boolean estaVacio() {
         return fichas.isEmpty();
     }
 }
-
-

@@ -12,6 +12,7 @@ public class Jugador {
     private boolean fichaColocada = false;
     private int indiceInicial;
     ArrayList<FichaDomino> mano;
+    FichaDomino ficha;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
@@ -56,7 +57,7 @@ public class Jugador {
                 indice = sc.nextInt();
             }
             indice--;
-            FichaDomino ficha = mano.get(indice);
+            ficha = mano.get(indice);
             System.out.print("¿A qué lado desea colocar la ficha? (I: izquierda, D: derecha): ");
             lado = sc.next().toUpperCase();
             while (!lado.equals("I") && !lado.equals("D")) {
@@ -67,7 +68,7 @@ public class Jugador {
                 if (ficha.getLado2() != extremoIzq) {
                     ficha.voltear();
                 }
-                tablero.add(0, ficha);
+                tablero.addFirst(ficha);
                 mano.remove(indice);
                 System.out.println("Ficha colocada a la izquierda.");
                 fichaColocada = true;
@@ -83,5 +84,36 @@ public class Jugador {
                 System.out.println("La ficha no encaja en el tablero. Inténtalo de nuevo.");
             }
         }
+    }
+    public void jugarFichaSacada(ArrayList<FichaDomino> tablero, Scanner sc , FichaDomino nuevaFicha) {
+    	fichaColocada = false;
+    	while (!fichaColocada) {
+    		ficha = mano.get(mano.size() - 1);
+    		System.out.print("¿A qué lado desea colocar la ficha? (I: izquierda, D: derecha): ");
+            lado = sc.next().toUpperCase();
+            while (!lado.equals("I") && !lado.equals("D")) {
+                System.out.println("Error, elige I o D");
+                lado = sc.nextLine().toUpperCase();
+            }
+            if (lado.equals("I") && (ficha.getLado1() == tablero.get(0).getLado1() || ficha.getLado2() == tablero.get(0).getLado1())) {
+                if (ficha.getLado2() != extremoIzq) {
+                    ficha.voltear();
+                }
+                tablero.addFirst(ficha);
+                mano.remove(indice);
+                System.out.println("Ficha colocada a la izquierda.");
+                fichaColocada = true;
+            } else if (lado.equals("D") && (ficha.getLado1() == tablero.get(tablero.size() - 1).getLado2() || ficha.getLado2() == tablero.get(tablero.size() - 1).getLado2())) {
+                if (ficha.getLado1() != extremoDer) {
+                    ficha.voltear();
+                }
+                tablero.add(ficha);
+                mano.remove(indice);
+                System.out.println("Ficha colocada a la derecha.");
+                fichaColocada = true;
+            } else {
+                System.out.println("La ficha no encaja en el tablero. Inténtalo de nuevo.");
+            }
+    	}
     }
 }
