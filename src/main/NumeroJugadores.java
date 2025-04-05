@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NumeroJugadores {
+	//Atributos
 	Scanner sc = new Scanner (System.in);
     private int numJugadores;
     ArrayList<Jugador> jugadores = new ArrayList<>();
     
+    //Constructores
 	public NumeroJugadores (int numJugadores) {
 		this.numJugadores = numJugadores;
 	}
@@ -15,7 +17,8 @@ public class NumeroJugadores {
 	public NumeroJugadores () {
 		
 	}
-
+	
+	//Getters y Setters
 	public int getNumJugadores() {
 		return numJugadores;
 	}
@@ -24,6 +27,7 @@ public class NumeroJugadores {
 		this.numJugadores = numJugadores;
 	}
 	
+	//Otros métodos
 	public int establecerNumeroJugadores() {
     System.out.print("Ingrese el número de jugadores (2-4): ");
     numJugadores = sc.nextInt();
@@ -32,6 +36,7 @@ public class NumeroJugadores {
 	    System.out.print("Ingrese el número de jugadores (2-4): ");
 	    numJugadores = sc.nextInt();
     }
+    //Se añade el número elegido de jugadores a la lista de jugadores
     for (int i = 0; i < numJugadores; i++) {
         jugadores.add(new Jugador("Jugador " + (i + 1)));
     }

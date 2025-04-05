@@ -1,15 +1,18 @@
 package main;
 
 public class FichaDomino {
+	//Atributos
     private int lado1;
     private int lado2;
     private int temporal;
 
+    //Constructores
     public FichaDomino(int lado1, int lado2) {
         this.lado1 = lado1;
         this.lado2 = lado2;
     }
    
+    //Getters y Setters
     public int getLado1() {
 		return lado1;
 	}
@@ -26,6 +29,7 @@ public class FichaDomino {
 		this.lado2 = lado2;
 	}
 
+	//Otros métodos
 	public boolean esDoble() {
         return lado1 == lado2;
     }

@@ -3,9 +3,11 @@ package main;
 import java.util.Scanner;
 
 public class Menu {
+	//atributos
 	Scanner sc = new Scanner (System.in);
 	private int respuestaMenu;
 	
+	//constructores
 	public Menu (int respuestaMenu) {
 		this.respuestaMenu = respuestaMenu;
 	}
@@ -13,7 +15,7 @@ public class Menu {
 	public Menu (){
 		
 	}
-	
+	//metodos
 	public String toString () {
 		String instrucciones = "";
 		instrucciones = "\n/////INSTRUCCIONES DEL JUEGO://///" 
@@ -36,6 +38,7 @@ public class Menu {
 	public void imprimirMenu () {
 		boolean bucleMenu = true;
 		System.out.println("/////BIENVENIDO AL JUEGO DEL DOMINÓ/////");
+		System.out.println("////////////////GRUPO 25////////////////");
 		while (bucleMenu == true) {
 			System.out.println("\n¿Qué quieres hacer?");
 			System.out.println("1. Jugar");
