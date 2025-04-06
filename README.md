@@ -1,4 +1,4 @@
-# Domino1.5
+# Domino 1.5 🕹️
 ## Integrantes del Grupo 25: 
 ### -Álvaro Santos Calvo
 ### -Nicolás García-Sampedro Docampo
